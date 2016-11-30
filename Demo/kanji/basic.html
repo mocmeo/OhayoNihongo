@@ -18,18 +18,19 @@
 		<button id="r">RESET</button>
 	</div>
 
-	<button id="わ" onclick="drawing('わ')">わ</button>
+<!-- 	<button id="わ" onclick="drawing('わ')">わ</button>
 	<button id="き" onclick="drawing('き')">き</button>
 	<button id="ま" onclick="drawing('ま')">ま</button>
 	<button id="し" onclick="drawing('し')">し</button>
-	<script>
+-->	<script>
+		// Initialize new dmak object
 		var dmak = new Dmak('あ', 
-				{'element': "konnichiha", 
-				"uri": "http://kanjivg.tagaini.net/kanjivg/kanji/", 
-				'step': 0.01
-			});
+			{'element': "konnichiha", 
+			"uri": "http://kanjivg.tagaini.net/kanjivg/kanji/", 
+			'step': 0.01
+		});
 		function drawing(target_id) {
-			removePanel(target_id);
+			replacePanel(target_id);
 			var character = document.getElementById(target_id).firstChild.data;
 			var dmak = new Dmak(character, 
 				{'element': "konnichiha", 
@@ -46,15 +47,41 @@
 			};
 		}
 
-		function removePanel(target_id) {
+		function replacePanel(target_id) {
 			var elem = document.getElementById('konnichiha');
 			elem.parentNode.removeChild(elem);
 
 			var konnichiha = document.createElement('div');
 			konnichiha.setAttribute("id", "konnichiha");
 
-			var body = document.getElementsByTagName('body')[0];
+			body = document.body;
 			body.insertBefore(konnichiha, body.childNodes[0]);
+		}
+	</script>
+
+	<script>
+		var characters = ['あ', 'い', 'う', 'え', 'お',
+						'か', 'き', 'く', 'け', 'こ',
+						'さ', 'し', 'す', 'せ', 'そ',
+						'た', 'ち', 'つ', 'て', 'と',
+						'な', 'に', 'ぬ', 'ね', 'の',
+						'は', 'ひ', 'ふ', 'へ', 'ほ',
+						'ま','み','む','め','も',
+						'や','ゆ','よ',
+						'ら','り','る','れ','ろ',
+						'わ','を','ん'];
+		var buttons = [];
+		for (var i = 0; i < characters.length; ++i) {
+			buttons[i] = document.createElement('button');
+			buttons[i].innerHTML = characters[i];
+			buttons[i].setAttribute("id", characters[i]);
+
+			body = document.body;
+			// body.insertBefore(buttons[i], body.childNodes[0]);
+			body.appendChild(buttons[i]);
+			buttons[i].addEventListener("click", function() {
+				drawing(this.innerHTML);
+			});
 		}
 	</script>
 </body>
