@@ -1,45 +1,61 @@
 <!DOCTYPE html>
 <html>
-	<head>
+<head>
 	<meta charset="utf-8">
 	<title>Draw Me A Kanji</title>
 	<link rel="stylesheet" href="demo.css"/>
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.2/raphael-min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	<script src="src/dmak.js"></script>
 	<script src="src/dmakLoader.js"></script>
-	</head>
-	<body>
+	<script src="src/jquery.dmak.js"></script>
+	<style type="text/css" href="demo.css"></style>
+</head>
+<body>
 	<div id="konnichiha"></div>
 	<div id="sample-btn">
-		<button id="p">BACK</button>
-		<button id="s">STOP</button>
 		<button id="g">PLAY</button>
-		<button id="n">NEXT</button>
 		<button id="r">RESET</button>
 	</div>
-	<div id="sekai"></div>
+
+	<button id="わ" onclick="drawing('わ')">わ</button>
+	<button id="き" onclick="drawing('き')">き</button>
+	<button id="ま" onclick="drawing('ま')">ま</button>
+	<button id="し" onclick="drawing('し')">し</button>
 	<script>
-		var dmak = new Dmak('さん', {'element': "konnichiha", "uri": "http://kanjivg.tagaini.net/kanjivg/kanji/", 'step': 0.01});
-		var p = document.getElementById("p");
-		p.onclick = function () {
-			dmak.eraseLastStrokes(1);
-		};
-		var s = document.getElementById("s");
-		s.onclick = function () {
-			dmak.pause();
-		};
-		var g = document.getElementById("g");
-		g.onclick = function () {
-			dmak.render();
-		};
-		var n = document.getElementById("n");
-		n.onclick = function () {
-			dmak.renderNextStrokes(1);
-		};
-		var r = document.getElementById("r");
-		r.onclick = function () {
-			dmak.erase();
-		};
+		var dmak = new Dmak('あ', 
+				{'element': "konnichiha", 
+				"uri": "http://kanjivg.tagaini.net/kanjivg/kanji/", 
+				'step': 0.01
+			});
+		function drawing(target_id) {
+			removePanel(target_id);
+			var character = document.getElementById(target_id).firstChild.data;
+			var dmak = new Dmak(character, 
+				{'element': "konnichiha", 
+				"uri": "http://kanjivg.tagaini.net/kanjivg/kanji/", 
+				'step': 0.01
+			});
+			var g = document.getElementById("g");
+			g.onclick = function () {
+				dmak.render();
+			};
+			var r = document.getElementById("r");
+			r.onclick = function () {
+				dmak.erase();
+			};
+		}
+
+		function removePanel(target_id) {
+			var elem = document.getElementById('konnichiha');
+			elem.parentNode.removeChild(elem);
+
+			var konnichiha = document.createElement('div');
+			konnichiha.setAttribute("id", "konnichiha");
+
+			var body = document.getElementsByTagName('body')[0];
+			body.insertBefore(konnichiha, body.childNodes[0]);
+		}
 	</script>
-	</body>
+</body>
 </html>
